@@ -7,7 +7,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 app.use(cors());
 app.use(cookieParser());
-
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 
 process.on('uncaughtException', err => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
@@ -21,9 +22,11 @@ app.use(express.json());
 app.use('/api/v1/post', postRouter);
 app.use('/api/v1/user', userRouter);
 
-const dbUrl = 'mongodb+srv://Saitama:2008hebbar@sample.0wvlpxr.mongodb.net/your-database-name'; // Replace 'your-database-name' with your actual database name
-
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+const dbUrl = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD
+);
+mongoose.connect(dbUrl)
   .then(() => {
     console.log('Connected to MongoDB');
   })

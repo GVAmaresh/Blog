@@ -4,11 +4,14 @@ const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 
 const jwtSecret = "my-new-idea-phone";
+
 const signToken = (id) => {
   return jwt.sign({ id }, jwtSecret, { expiresIn: "90d" });
 };
+
 const createToken = (user, req, res) => {
   const token = signToken(user._id);
+  
   res.cookie("jwt", token, {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true,
