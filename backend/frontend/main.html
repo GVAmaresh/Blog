@@ -184,7 +184,7 @@
     <div class="container">
       <div class="navbar">
         <div class="logo">
-          <img class="logo-img" src="./Blogger.png" alt="" />
+          <img class="logo-img" src="https://hmp.me/eae2" alt="" />
         </div>
         <div class="content">
           <div class="home">Home</div>
@@ -278,9 +278,9 @@
             .then((data) => {
               if (data.compile === "notLoggedIn") {
                 alert("You are not logged in")
-                return window.location.href = "http://127.0.0.1:5500/backend/frontend/login.html";
+                return window.location.href = "http://127.0.0.1:5000/api/v1/blogs/login";
               }
-              window.location.href = `http://127.0.0.1:5500/backend/frontend/page.html?id=655599904e0ffbbc32a0cbc8`;
+              window.location.href = `http://127.0.0.1:5000/api/v1/blogs/page?id=655599904e0ffbbc32a0cbc8`;
             });
         });
         title.textContent =

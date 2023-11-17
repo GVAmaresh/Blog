@@ -147,6 +147,7 @@ exports.commentSection = async (req, res) => {
     const { comment } = req.body;
     const { name, photo } = await User.findById(req.user._id);
     let updatedComment = "";
+    
     if (comment) {
       updatedComment = await Post.findByIdAndUpdate(
         postID,

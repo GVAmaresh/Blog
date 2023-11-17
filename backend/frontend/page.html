@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Article Page</title>
     <style>
-      .article-pages{
+      .article-pages {
         padding: 10%;
         padding-top: 1%;
       }
@@ -30,11 +30,11 @@
         background-color: aqua;
         padding: 10px;
       }
-      .comment{
+      .comment {
         margin: 2%;
-        
       }
       .comments {
+        padding: 1%;
         display: flex;
         height: 20%;
       }
@@ -43,7 +43,7 @@
         width: 10%;
         background-color: aqua;
         clip-path: circle();
-        background-image: url("https://media.istockphoto.com/id/1313502972/photo/portrait-of-beautiful-woman-having-fun.jpg?s=612x612&w=0&k=20&c=DHGWp3wIoSlpjK9xFdARpgpyo4t-hIzuqOSx5ZyRsHA=");
+
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -65,17 +65,17 @@
         font-size: medium;
         margin-bottom: 2%;
       }
-      .name{
+      .name {
         padding-bottom: 1%;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
         font-weight: 400;
       }
-      input{
+      input {
         width: 60%;
         border-radius: 10px;
         padding: 2%;
       }
-      .commit{
+      .commit {
         padding: 1%;
         background-color: cornflowerblue;
         width: 5%;
@@ -83,7 +83,7 @@
         margin-top: 1%;
         border-radius: 20px;
       }
-      .heading{
+      .heading {
         font-family: Arial, Helvetica, sans-serif;
         margin-top: 4%;
       }
@@ -97,7 +97,7 @@
     <div class="container">
       <div class="navbar">
         <div class="logo">
-          <img class="logo-img" src="./Blogger.png" alt="" />
+          <img class="logo-img" src="https://hmp.me/eae2" alt="" />
         </div>
         <div class="content">
           <div class="home">Home</div>
@@ -107,39 +107,44 @@
         </div>
       </div>
       <div class="article-pages">
-      <div class="title"></div>
-      <div class="images"></div>
-      <div class="subheading"></div>
-      <div class="summary"></div>
-      <p class="description"></p>
-      <div class="commentSection">
-        <div class="heading">Comments(2)</div>
-        <div class="comment">
-          What You Think <div class="input"><input type="message" name="" id="" /></div>
-          <div class="commit">Comment</div>
-        </div>
-        <div class="othercomment">
-          <div class="comments">
+        <div class="title"></div>
+        <div class="images"></div>
+        <div class="subheading"></div>
+        <div class="summary"></div>
+        <p class="description"></p>
+        <div class="commentSection">
+          <div class="heading">Comments(2)</div>
+          <div class="comment">
+            What You Think
+            <div class="input">
+              <input type="message" class="editInput" name="" id="" />
+            </div>
+            <div class="commit">Comment</div>
+          </div>
+          <div class="otherComment">
+            <!-- <div class="comments">
             <div class="circle-images"></div>
             <div class="details">
               <div class="name">G V Amaresh</div>
               <div class="opinion">I guess The provided HTML snippet contains a <div> element with a class of "circle-images" and a background style set to a URL. However, it seems there's a syntax error in the style attribute. The URL is not properly enclosed in parentheses. To correct the syntax, you should use proper quotation marks around the URL. Here's the corrected version:This CSS uses the display: flex property for both .comments and .details, which allows you to control the spacing more precisely. The margin-right property is used to set the space between the .circle-images and .details as well as between the image and text inside .details. You can adjust the values according to your design preferences.</div>
             </div>
+          </div>-->
           </div>
         </div>
       </div>
     </div>
-    </div>
   </body>
   <script>
     const url = encodeURIComponent(window.location.href);
+    console.log(url);
     const id = url.split("id%3D")[1];
-
     const title = document.querySelector(".title");
     const subheading = document.querySelector(".subheading");
     const summary = document.querySelector(".summary");
     const description = document.querySelector(".description");
-
+    const otherComment = document.querySelector(".otherComment");
+    const heading = document.querySelector(".heading");
+    const input = document.querySelector(".editInput");
     fetch("http://127.0.0.1:5000/api/v1/post/getPost", {
       method: "POST",
       headers: {
@@ -158,7 +163,8 @@
       .catch((error) => {
         console.error("Error sending data to the backend:", error);
       });
-    fetch("http://127.0.0.1:5000/api/v1/post/comment", {
+
+    fetch("http://127.0.0.1:5000/api/v1/user/comment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -166,15 +172,60 @@
       body: JSON.stringify({ id: id }),
     })
       .then((response) => response.json())
-      .then((data) => {})
+      .then((data) => {
+        otherComment.innerHTML = ''
+        commentSection(data.data.comment);
+        console.log("comment received");
+      })
       .catch((error) => {
-        console.error("Error sending data to the backend:", error);
+        console.error("Error", error);
       });
-
-    document.querySelector('.home').addEventListener('click',(e)=>{
+    document.querySelector(".commit").addEventListener("click", (e) => {
       e.preventDefault();
-      window.location.href =
-      `http://127.0.0.1:5500/backend/frontend/main.html`;
-    })
+      if (!input.value.trim()) return;
+      fetch("http://127.0.0.1:5000/api/v1/user/comment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify({ comment: input.value, id: id }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          otherComment.innerHTML = ''
+          commentSection(data.data.comment);
+        });
+    });
+    document.querySelector(".home").addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = `http://127.0.0.1:5000/api/v1/blogs/home`;
+    });
+
+    function commentSection(data) {
+      heading.textContent = `Comments (${data.length})`;
+      console.log(data);
+      if (data) {
+        data.map((e) => {
+          const comment = document.createElement("div");
+          comment.className = "comments";
+          const details = document.createElement("div");
+          details.className = "details";
+          const image = document.createElement("div");
+          image.className = "circle-images";
+          const name = document.createElement("div");
+          name.className = "name";
+          const opinion = document.createElement("div");
+          opinion.className = "opinion";
+          image.style.backgroundImage = `url(${e.personImg})`
+          name.textContent = e.personName;
+          opinion.textContent = e.comment;
+          details.appendChild(name);
+          details.appendChild(opinion);
+          comment.appendChild(image);
+          comment.appendChild(details);
+          otherComment.appendChild(comment);
+        })
+      }
+    }
   </script>
 </html>

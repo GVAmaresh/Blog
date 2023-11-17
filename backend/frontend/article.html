@@ -141,7 +141,6 @@
     });
     document.querySelector(".create").addEventListener("click", (e) => {
       e.preventDefault();
-      console.log(title.value.trim());
       if (
         photo.value.trim() === '' ||
         title.value.trim() === '' ||
@@ -152,7 +151,6 @@
       ) {
         return alert("Please Fill All Data");
       }
-      console.log(title.value.trim());
       const sendDetails = {
         photo: photo.value.trim(),
         title: title.value.trim(),
