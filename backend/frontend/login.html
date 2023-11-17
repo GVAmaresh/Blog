@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+      .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .image {
+        height: 90vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-image: url("https://img.freepik.com/free-vector/call-center-concept-illustration_114360-2045.jpg?t=st=1700110761~exp=1700111361~hmac=07837cc1d480d29ab391815afd4eddec60fc72fd6055fbdc92442324aa36759e");
+      }
+      .login {
+        background-color: black;
+        z-index: 200;
+        height: 90vh;
+        clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+      }
+      .myLogin {
+        position: absolute;
+        margin-top: 10%;
+        margin-left: 15%;
+        padding: 5%;
+        padding-top: 3%;
+        border-radius: 10px;
+        background-color: white;
+      }
+      .email,
+      .password {
+        margin-bottom: 10%;
+      }
+      input {
+        border: solid 0px black;
+        border-radius: 5px;
+        font-size: 20px;
+        padding: 4%;
+        background-color: #e4f4f3;
+      }
+      .signin {
+        text-align: center;
+        background-color: indigo;
+        font-size: 20px;
+        padding: 5%;
+        border-radius: 10px;
+        margin-left: 5%;
+        cursor: pointer;
+        color: white;
+      }
+      .signup {
+        margin-top: 20%;
+        text-align: center;
+      }
+      .shift {
+        margin-top: 5%;
+        text-transform: uppercase;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .welcome {
+        text-align: center;
+        font-weight: 600;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        padding-bottom: 10%;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="container">
+      <div class="image"></div>
+      <div class="extra">
+        <div class="login">
+          <div class="myLogin">
+            <div class="welcome">Already a Memeber</div>
+            <div class="email">
+              <input
+                type="email"
+                class="editEmail"
+                placeholder="Enter your Email"
+              />
+            </div>
+            <div class="password">
+              <input
+                type="password"
+                name=""
+                class="editPassword"
+                id=""
+                placeholder="Enter your Password"
+              />
+            </div>
+            <div class="signin">SIGN IN</div>
+            <div class="signup">
+              <div class="">Don't have an Account</div>
+              <div class="shift">Create One</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </body>
+  <script>
+    document.querySelector(".shift").addEventListener("click", () => {
+      window.location.href =
+        "http://127.0.0.1:5500/backend/frontend/signup.html";
+    });
+    const email = document.querySelector(".editEmail");
+    const password = document.querySelector(".editPassword");
+    document.querySelector(".signin").addEventListener("click", () => {
+      console.log(email.value, password.value);
+      if (
+        !email.value.trim() ||
+        !password.value.trim() ||
+        !email.value.includes("@") ||
+        !(email.value.length > 8)
+      ) {
+        return alert("Please Enter a valid email or password");
+      }
+      if (password.value.length < 8) {
+        return alert("Password should have 8 character");
+      }
+      fetch("http://127.0.0.1:5000/api/v1/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email.value, password: password.value }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Data received");
+          if (data.compile === "notFound") {
+            alert("Account not Found!");
+            return (window.location.href =
+              "http://127.0.0.1:5500/backend/frontend/signup.html");
+          }
+          window.location.href =
+            "http://127.0.0.1:5500/backend/frontend/main.html";
+        });
+    });
+  </script>
+</html>

@@ -1,11 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Page</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Article Page</title>
+    <style>
+      .article-pages{
+        padding: 10%;
+        padding-top: 1%;
+      }
+      .navbar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .content {
+        display: flex;
+        margin-top: 5%;
+        gap: 10%;
+      }
+      .logo-img {
+        width: 15%;
+      }
+      .images {
+        width: 40%;
+        background-color: white;
+      }
+      .circles-images {
+        width: 20%;
+        background-color: aqua;
+        padding: 10px;
+      }
+      .comment{
+        margin: 2%;
+        
+      }
+      .comments {
+        display: flex;
+        height: 20%;
+      }
+      .circle-images {
+        height: 10vh;
+        width: 10%;
+        background-color: aqua;
+        clip-path: circle();
+        background-image: url("https://media.istockphoto.com/id/1313502972/photo/portrait-of-beautiful-woman-having-fun.jpg?s=612x612&w=0&k=20&c=DHGWp3wIoSlpjK9xFdARpgpyo4t-hIzuqOSx5ZyRsHA=");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .title {
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        font-size: xx-large;
+        font-weight: 600;
+        margin-bottom: 5%;
+      }
+      .details {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .subheading {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        font-size: medium;
+        margin-bottom: 2%;
+      }
+      .name{
+        padding-bottom: 1%;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-weight: 400;
+      }
+      input{
+        width: 60%;
+        border-radius: 10px;
+        padding: 2%;
+      }
+      .commit{
+        padding: 1%;
+        background-color: cornflowerblue;
+        width: 5%;
+        margin: 2%;
+        margin-top: 1%;
+        border-radius: 20px;
+      }
+      .heading{
+        font-family: Arial, Helvetica, sans-serif;
+        margin-top: 4%;
+      }
+      .summary {
+        color: gray;
+        margin-bottom: 2%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">
+          <img class="logo-img" src="./Blogger.png" alt="" />
+        </div>
+        <div class="content">
+          <div class="home">Home</div>
+          <div class="about">About</div>
+          <div class="contents">Contents</div>
+          <div class="login">Login</div>
+        </div>
+      </div>
+      <div class="article-pages">
+      <div class="title"></div>
+      <div class="images"></div>
+      <div class="subheading"></div>
+      <div class="summary"></div>
+      <p class="description"></p>
+      <div class="commentSection">
+        <div class="heading">Comments(2)</div>
+        <div class="comment">
+          What You Think <div class="input"><input type="message" name="" id="" /></div>
+          <div class="commit">Comment</div>
+        </div>
+        <div class="othercomment">
+          <div class="comments">
+            <div class="circle-images"></div>
+            <div class="details">
+              <div class="name">G V Amaresh</div>
+              <div class="opinion">I guess The provided HTML snippet contains a <div> element with a class of "circle-images" and a background style set to a URL. However, it seems there's a syntax error in the style attribute. The URL is not properly enclosed in parentheses. To correct the syntax, you should use proper quotation marks around the URL. Here's the corrected version:This CSS uses the display: flex property for both .comments and .details, which allows you to control the spacing more precisely. The margin-right property is used to set the space between the .circle-images and .details as well as between the image and text inside .details. You can adjust the values according to your design preferences.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </body>
+  <script>
+    const url = encodeURIComponent(window.location.href);
+    const id = url.split("id%3D")[1];
+
+    const title = document.querySelector(".title");
+    const subheading = document.querySelector(".subheading");
+    const summary = document.querySelector(".summary");
+    const description = document.querySelector(".description");
+
+    fetch("http://127.0.0.1:5000/api/v1/post/getPost", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const details = data.data;
+        title.textContent = details.title;
+        subheading.textContent = details.subheading;
+        summary.textContent = details.summary;
+        description.innerHTML = details.description.replace(/\n/g, "<br><br>");
+      })
+      .catch((error) => {
+        console.error("Error sending data to the backend:", error);
+      });
+    fetch("http://127.0.0.1:5000/api/v1/post/comment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {})
+      .catch((error) => {
+        console.error("Error sending data to the backend:", error);
+      });
+
+    document.querySelector('.home').addEventListener('click',(e)=>{
+      e.preventDefault();
+      window.location.href =
+      `http://127.0.0.1:5500/backend/frontend/main.html`;
+    })
+  </script>
 </html>

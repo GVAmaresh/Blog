@@ -64,6 +64,7 @@
         white-space: nowrap;
         overflow-x: hidden;
         overflow-y: hidden;
+        cursor: pointer;
       }
       .img {
         object-fit: cover;
@@ -183,11 +184,7 @@
     <div class="container">
       <div class="navbar">
         <div class="logo">
-          <img
-            class="logo-img"
-            src="./Blogger.png"
-            alt=""
-          />
+          <img class="logo-img" src="./Blogger.png" alt="" />
         </div>
         <div class="content">
           <div class="home">Home</div>
@@ -211,7 +208,6 @@
       "scrollBackgroundLastFirst",
       "scrollBackgroundFirstLast",
     ];
-    console.log(screen)
     let repeatColumn = 5;
     let screeenHeight = 600;
     let screenWidth = 999;
@@ -230,13 +226,13 @@
 
     if (screen > 1300) {
       repeatColumn = 3;
-      screeenHeight = 700;
-      screenWidth = 1200
+      screeenHeight = 600;
+      screenWidth = 1200;
     }
 
     if (screen > 2000) {
       repeatColumn = 4;
-      screeenHeight = 600;
+      screeenHeight = 700;
       screenWidth = 999;
     }
     console.log(screen);
@@ -256,27 +252,36 @@
             randomWords[Math.floor(Math.random() * randomWords.length)];
           img.style.animation = `${randomAnimation} 10s linear infinite`;
         };
-
+        img.id = "cmfqp39fj";
         img.src =
           "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpghttps://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg";
         img.style.height = `${screeenHeight}px`;
         img.style.width = `${screenWidth}px`;
         img.style.objectFit = "cover";
-        img.addEventListener("mouseover", () => {
+        article.addEventListener("mouseover", () => {
           img.style.opacity = "0.8";
           title.style.display = "block";
         });
-        title.addEventListener("mouseover", () => {
-          img.style.opacity = "0.8";
-          title.style.display = "block";
-        });
-        img.addEventListener("mouseout", () => {
+        console.log(img.id);
+        article.addEventListener("mouseout", () => {
           img.style.opacity = "1";
           title.style.display = "none";
         });
-        title.addEventListener("mouseout", () => {
-          img.style.opacity = "1";
-          title.style.display = "none";
+        article.addEventListener("click", () => {
+          fetch("http://127.0.0.1:5000/api/v1/user/isLoggedIn", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.compile === "notLoggedIn") {
+                alert("You are not logged in")
+                return window.location.href = "http://127.0.0.1:5500/backend/frontend/login.html";
+              }
+              window.location.href = `http://127.0.0.1:5500/backend/frontend/page.html?id=655599904e0ffbbc32a0cbc8`;
+            });
         });
         title.textContent =
           "There is something a lot is going on i dont know lets check it out";

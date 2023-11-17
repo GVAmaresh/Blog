@@ -10,15 +10,24 @@ const signToken = (id) => {
 };
 
 const createToken = (user, req, res) => {
-  const token = signToken(user._id);
-  
-  res.cookie("jwt", token, {
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    httpOnly: true,
-    secure: req.secure || req.headers["x-forwarded-proto"] === "https",
-  });
-  user.password = undefined;
-  res.status(201).json({ status: "Success", token, data: { user } });
+  try {
+    const token = signToken(user._id);
+    res.cookie("jwt", token, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      secure: req.secure || req.headers["x-forwarded-proto"] === "https",
+    });
+    user.password = undefined;
+    res.locals.user = user;
+    console.log(res.locals)
+    res.status(201).json({ status: "Success", token, data: { user } });
+  } catch (err) {
+    res.starts(500).json({
+      status: "Fail",
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
 };
 
 exports.signup = async (req, res) => {
@@ -41,10 +50,38 @@ exports.signup = async (req, res) => {
   }
 };
 
+exports.isLoggedIn = async (req, res) => {
+  try {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies.jwt) {
+      token = req.cookies.jwt;
+    }
+    if (!token){
+      return res.status(400).json({
+        status: "Fail",
+        compile: "notLoggedIn",
+        message: "Not logged in",
+      });
+    }
+    res.status(200).json({ status: "success", message: "Already Logged in" });
+  } catch (err) {
+    res.status(500).json({
+      status: "Fail",
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
+};
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
+    console.log(email, password, req.body);
     if (!email || !password) {
       return res.status(401).json({
         status: "Error",
@@ -57,6 +94,7 @@ exports.login = async (req, res) => {
     if (!user || !(await user.correctPassword(password, user.password))) {
       return res.status(401).json({
         status: "Fail",
+        compile: "notFound",
         message: "Invalid email or password",
       });
     }
@@ -71,48 +109,62 @@ exports.login = async (req, res) => {
 };
 
 exports.protect = async (req, res, next) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
-  } else if (req.cookies.jwt) {
-    token = req.cookies.jwt;
+  try {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies.jwt) {
+      token = req.cookies.jwt;
+    }
+    if (!token)
+      return res.status(401).json({
+        status: "Error",
+        compile: "login",
+        message: "You are not logged in, so please log in and try again",
+      });
+    const decoded = await promisify(jwt.verify)(token, jwtSecret);
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return res.status(401).json({
+        status: "Error",
+        message: "The user belonging to this token does no longer exist.",
+      });
+    }
+    req.user = currentUser;
+    res.locals.user = currentUser;
+    next();
+  } catch (err) {
+    res.status(500).json({ status: "Fail", message: err.message });
   }
-  if (!token)
-    return res.status(401).json({
-      status: "Error",
-      message: "You are not logged in, so please log in and try again",
-    });
-  const decoded = await promisify(jwt.verify)(token, jwtSecret);
-  const currentUser = await User.findById(decoded.id);
-  if (!currentUser) {
-    return res.status(401).json({
-      status: "Error",
-      message: "The user belonging to this token does no longer exist.",
-    });
-  }
-  req.user = currentUser;
-  res.locals.user = currentUser;
-  next();
 };
 
 exports.commentSection = async (req, res) => {
   try {
-    const postID = req.params.id;
+    const postID = req.body.id;
     const { comment } = req.body;
-    if (!comment) {
-      return res.status(400).json({
-        status: "error",
-        message: "Comment is required.",
-      });
+    const { name, photo } = await User.findById(req.user._id);
+    let updatedComment = "";
+    if (comment) {
+      updatedComment = await Post.findByIdAndUpdate(
+        postID,
+        {
+          $push: {
+            comment: {
+              personID: req.user._id,
+              comment,
+              personName: name,
+              personImg: photo,
+            },
+          },
+        },
+        { new: true }
+      );
+    } else {
+      updatedComment = await Post.findById(postID);
     }
-    const updatedComment = await Post.findByIdAndUpdate(
-      postID,
-      { $push: { comment: {personID: req.user._id, comment} } },
-      { new: true }
-    );
     if (!updatedComment) {
       return res.status(404).json({
         status: "error",
@@ -121,7 +173,7 @@ exports.commentSection = async (req, res) => {
     }
     res.status(200).json({
       status: "success",
-      data: updatedComment
+      data: updatedComment,
     });
   } catch (err) {
     res.status(500).json({

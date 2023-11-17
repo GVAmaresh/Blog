@@ -41,22 +41,33 @@ exports.getAllPost = async (req, res) => {
   });
 };
 exports.getPost = async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  res.status(200).json({
-    status: "success",
-    data: post,
-  });
+  try {
+    const post = await Post.findById(req.body.id);
+    if (!post)
+      return res
+        .status(404)
+        .json({ status: "fail", message: "Post not found" });
+    res.status(200).json({
+      status: "success",
+      data: post,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "Fail",
+      message: "Internal Server Error",
+    });
+  }
 };
 
 exports.searchPost = async (req, res) => {
   try {
     const searchPhrase = req.params.title;
     const posts = await Post.find({
-      title: { $regex: new RegExp(searchPhrase, 'i') }
+      title: { $regex: new RegExp(searchPhrase, "i") },
     });
     res.status(200).json({
       status: "success",
-      data: posts
+      data: posts,
     });
   } catch (error) {
     console.error("Search error:", error);

@@ -4,6 +4,8 @@ const commentSchema = mongoose.Schema({
   personID: { type: String, required: [true, "Person details are necessary"] },
   comment: { type: String, required: [true, "Comment is necessary"] },
   date: { type: Date, default:Date.now() },
+  personImg: { type: String, default: "default.png"},
+  personName: { type: String, required: [true, "Person Nmae is necessary"]}
 });
 
 const postSchema = new mongoose.Schema({

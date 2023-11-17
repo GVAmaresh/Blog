@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign UP</title>
+    <style>
+      .container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .image {
+        height: 90vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-image: url("https://img.freepik.com/free-vector/two-men-shake-hands-with-each-other-isolated-white-background-meeting-greeting-friends-businessmen-deal-agreement-illustration-partnership-cooperation-communication_575670-2344.jpg?w=996&t=st=1700126584~exp=1700127184~hmac=df2026553cfad25437a96b362bb39df01e86f2c66d0f667d7e5b3c6c24fa0008");
+      }
+      .login {
+        background-color: black;
+        z-index: 200;
+        height: 90vh;
+        clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+      }
+      .myLogin {
+        position: absolute;
+        margin-top: 5%;
+        margin-left: 15%;
+        padding: 5%;
+        padding-top: 2%;
+        border-radius: 10px;
+        background-color: white;
+      }
+      .email,
+      .name,
+      .photo,
+      .password,
+      .changePassword {
+        margin-bottom: 5%;
+      }
+      input {
+        border: solid 0px black;
+        border-radius: 5px;
+        font-size: 20px;
+        padding: 4%;
+        background-color: #e4f4f3;
+      }
+      .signin {
+        text-align: center;
+        background-color: indigo;
+        font-size: 20px;
+        padding: 5%;
+        border-radius: 10px;
+        margin-left: 5%;
+        cursor: pointer;
+        color: white;
+      }
+      .welcome {
+        text-align: center;
+        font-size: larger;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        font-weight: 500;
+        padding-bottom: 10%;
+      }
+      .signup {
+        margin-top: 20%;
+        text-align: center;
+      }
+      .shift {
+        margin-top: 5%;
+        text-transform: uppercase;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        font-weight: 800;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="container">
+      <div class="image"></div>
+      <div class="extra">
+        <div class="login">
+          <div class="myLogin">
+            <div class="welcome">Become a Member</div>
+            <div class="photo">
+              <input
+                type="text"
+                class="editPhoto"
+                placeholder="Enter your Photo in URL(optionnal)"
+              />
+            </div>
+            <div class="name">
+              <input
+                type="name"
+                class="editName"
+                placeholder="Enter your Name"
+              />
+            </div>
+            <div class="email">
+              <input
+                type="email"
+                class="editEmail"
+                placeholder="Enter your Email"
+              />
+            </div>
+            <div class="password">
+              <input
+                type="password"
+                name=""
+                id=""
+                class="editPassword"
+                placeholder="Enter your Password"
+              />
+            </div>
+            <div class="changePassword">
+              <input
+                type="password"
+                class="editPasswordConfirm"
+                name=""
+                id=""
+                placeholder="Enter your Password"
+              />
+            </div>
+            <div class="signin">SIGN IN</div>
+            <div class="signup">
+              <div class="">Have an Account</div>
+              <div class="shift">Sign in</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </body>
+  <script>
+    const photo = document.querySelector(".editPhoto");
+    const name = document.querySelector(".editName");
+    const email = document.querySelector(".editEmail");
+    const password = document.querySelector(".editPassword");
+    const passwordConfirm = document.querySelector(".editPasswordConfirm");
+    document.querySelector(".shift").addEventListener("click", () => {
+      window.location.href =
+        "http://127.0.0.1:5500/backend/frontend/login.html";
+    });
+    document.querySelector(".signin").addEventListener("click", () => {
+      if (
+        !name.value.trim() ||
+        !email.value.trim() ||
+        !password.value.trim() ||
+        !passwordConfirm.value.trim()
+      ) {
+        return alert("Please fill the Form");
+      }
+      if (
+        !email.value.includes("@") ||
+        !(email.value.length >= 8) ||
+        !(password.value.length >= 8)
+      ) {
+        return alert("Please enter the email or password");
+      }
+      if (!(password.value === passwordConfirm.value)) {
+        return alert("Password doesn't match");
+      }
+      fetch("http://127.0.0.1:5000/api/v1/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          photo: photo.value,
+          name: name.value,
+          email: email.value,
+          password: password.value,
+          passwordConfirm: passwordConfirm.value,
+        })
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err.message));
+    });
+  </script>
+</html>
