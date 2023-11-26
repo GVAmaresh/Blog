@@ -42,6 +42,6 @@ Launch the backend server:
 >> npm start
 
 Access the Project:
-Open your browser and navigate to http://127.0.0.1:5000/api/v1/blogs/home.
+Open your browser and navigate to http://127.0.0.1:5000/api/v1/blogs/home
 
 Now, the blog project is up and running successfully! For ongoing updates and improvements, check the GitHub repository. Happy blogging! 🚀
