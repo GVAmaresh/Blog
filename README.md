@@ -21,7 +21,7 @@ Ensure a smooth setup for the blog project by following these steps:
 
 Clone the Repository:
 Use Git Bash for a seamless experience. Run the following command:
->> git clone [repository_url]
+>> git clone git@github.com:GVAmaresh/Blog.git
 
 Navigate to Backend Directory:
 Open the terminal and go to the backend directory:
