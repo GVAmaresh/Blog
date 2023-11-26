@@ -6,7 +6,7 @@
     <title>Article Page</title>
     <style>
       .article-pages {
-        padding: 10%;
+        padding: 2%;
         padding-top: 1%;
       }
       .navbar {
@@ -22,7 +22,7 @@
         width: 15%;
       }
       .images {
-        width: 40%;
+        width: 80%;
         background-color: white;
       }
       .circles-images {
@@ -56,7 +56,7 @@
       }
       .details {
         width: 100%;
-        padding: 10px;
+        padding: 1px;
         box-sizing: border-box;
       }
       .image {
@@ -107,7 +107,7 @@
         <div class="content">
           <div class="home">Home</div>
           <div class="about">About</div>
-          <div class="contents">Contents</div>
+          <div class="create">Create Article</div>
           <div class="login">Login</div>
         </div>
       </div>
@@ -236,6 +236,9 @@
     });
     document.querySelector(".create").addEventListener("click", () => {
       checkLoggedIn("http://127.0.0.1:5000/api/v1/blogs/createArticle");
+    });
+    document.querySelector(".login").addEventListener("click", () => {
+      window.location.href = "http://127.0.0.1:5000/api/v1/blogs/login";
     });
 
     function checkLoggedIn(url) {
