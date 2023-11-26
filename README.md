@@ -2,17 +2,17 @@
 
 In this blog project, a dynamic and engaging web application has been crafted, leveraging a blend of technologies to deliver a seamless user experience:
 
-HTML for Structured Content:
-The project incorporates HTML to structure and organize content, ensuring a clear and intuitive layout for users to navigate.
+> HTML for Structured Content:
+  The project incorporates HTML to structure and organize content, ensuring a clear and intuitive layout for users to navigate.
 
-CSS for Stylish Presentation:
-CSS is employed to add a touch of style and design, enhancing the visual appeal of the blog interface with carefully crafted layouts and aesthetic elements.
+> CSS for Stylish Presentation:
+  CSS is employed to add a touch of style and design, enhancing the visual appeal of the blog interface with carefully crafted layouts and aesthetic elements.
 
-JavaScript for Dynamic Interactivity:
-Leveraging the power of JavaScript, the project introduces dynamic interactivity, allowing users to experience a responsive and interactive blog interface.
+> JavaScript for Dynamic Interactivity:
+  Leveraging the power of JavaScript, the project introduces dynamic interactivity, allowing users to experience a responsive and interactive blog interface.
 
-Node.js for Robust Backend Functionality:
-The backend of the project is powered by Node.js, providing a robust and scalable foundation for server-side operations, data management, and overall system functionality.
+> Node.js for Robust Backend Functionality:
+  The backend of the project is powered by Node.js, providing a robust and scalable foundation for server-side operations, data management, and overall system functionality.
 
 This amalgamation of HTML, CSS, JavaScript, and Node.js creates a well-rounded and feature-rich blog platform, where the frontend and backend harmoniously collaborate to deliver a compelling user experience.
 
