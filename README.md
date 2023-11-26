@@ -34,6 +34,7 @@ Make sure Node.js is installed. If not, download it from the official website. T
 Configure Database:
 Create a file named config.env in the backend path. Add your MongoDB database address and password:
 >> DATABASE=Your_Database_Address
+
 >> DATABASE_PASSWORD=Your_Database_Password
 
 Start the Server:
