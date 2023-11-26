@@ -20,10 +20,15 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.6.4",
     "nodemon": "^3.0.1",
+    "npm-run-all": "^4.1.5",
     "open": "^9.1.0",
     "path": "^0.12.7",
     "promisify": "^0.0.3",
     "util": "^0.12.5",
     "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "opn": "^6.0.0"
   }
 }

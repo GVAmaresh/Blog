@@ -37,6 +37,7 @@ exports.signup = async (req, res) => {
       return res
         .status(400)
         .json({ status: "Fail", message: "Invalid email or password" });
+
     const user = await User.create({
       name,
       email,
@@ -148,15 +149,13 @@ exports.commentSection = async (req, res) => {
     const { name, photo } = await User.findById(req.user._id);
     let updatedComment = "";
     const post = await Post.findById(postID);
-    const userComment = post.comment.find((e) =>
-      e.personID == req.user._id
-    );
-    if(comment && userComment){
+    const userComment = post.comment.find((e) => e.personID == req.user._id);
+    if (comment && userComment) {
       return res.status(201).json({
-        "status": "Fail",
-        "compile": "alreadyComment",
-        message: "You are already did comment on this post"
-      })
+        status: "Fail",
+        compile: "alreadyComment",
+        message: "You are already did comment on this post",
+      });
     }
     if (comment) {
       updatedComment = await Post.findByIdAndUpdate(

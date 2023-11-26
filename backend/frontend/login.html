@@ -108,8 +108,7 @@
   </body>
   <script>
     document.querySelector(".shift").addEventListener("click", () => {
-      window.location.href =
-        "http://127.0.0.1:5500/backend/frontend/signup.html";
+      window.location.href = "http://127.0.0.1:5000/api/v1/blogs/signup";
     });
     const email = document.querySelector(".editEmail");
     const password = document.querySelector(".editPassword");
@@ -134,14 +133,12 @@
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("Data received");
           if (data.compile === "notFound") {
             alert("Account not Found!");
             return (window.location.href =
               "http://127.0.0.1:5000/api/v1/blogs/signup");
           }
-          window.location.href =
-            "http://127.0.0.1:5000/api/v1/blogs/home";
+          window.location.href = "http://127.0.0.1:5000/api/v1/blogs/home";
         });
     });
   </script>
