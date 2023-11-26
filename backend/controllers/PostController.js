@@ -3,6 +3,7 @@ const Post = require("../models/PostModel");
 exports.createPost = async (req, res) => {
   try {
     const post = await Post.create(req.body);
+    console.log(post);
     res.status(201).json({
       status: "success",
       data: {
@@ -42,6 +43,7 @@ exports.getAllPost = async (req, res) => {
 };
 exports.getPost = async (req, res) => {
   try {
+    console.log(req.body.id);
     const post = await Post.findById(req.body.id);
     if (!post)
       return res

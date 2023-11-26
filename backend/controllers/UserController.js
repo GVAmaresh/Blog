@@ -19,7 +19,7 @@ const createToken = (user, req, res) => {
     });
     user.password = undefined;
     res.locals.user = user;
-    console.log(res.locals)
+
     res.status(201).json({ status: "Success", token, data: { user } });
   } catch (err) {
     res.starts(500).json({
@@ -61,7 +61,7 @@ exports.isLoggedIn = async (req, res) => {
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
     }
-    if (!token){
+    if (!token) {
       return res.status(400).json({
         status: "Fail",
         compile: "notLoggedIn",
@@ -147,7 +147,17 @@ exports.commentSection = async (req, res) => {
     const { comment } = req.body;
     const { name, photo } = await User.findById(req.user._id);
     let updatedComment = "";
-    
+    const post = await Post.findById(postID);
+    const userComment = post.comment.find((e) =>
+      e.personID == req.user._id
+    );
+    if(comment && userComment){
+      return res.status(201).json({
+        "status": "Fail",
+        "compile": "alreadyComment",
+        message: "You are already did comment on this post"
+      })
+    }
     if (comment) {
       updatedComment = await Post.findByIdAndUpdate(
         postID,

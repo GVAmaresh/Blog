@@ -178,6 +178,12 @@
         white-space: normal;
         word-wrap: break-word;
       }
+      .home,
+      .about,
+      .create,
+      .login {
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -189,7 +195,7 @@
         <div class="content">
           <div class="home">Home</div>
           <div class="about">About</div>
-          <div class="contents">Contents</div>
+          <div class="create">Create Article</div>
           <div class="login">Login</div>
         </div>
       </div>
@@ -237,59 +243,90 @@
     }
     console.log(screen);
     blogs.style.gridTemplateColumns = `repeat(${repeatColumn}, 1fr)`;
+
     Array.from({ length: repeatColumn }, (_, index) => {
       const blog = document.createElement("div");
       blog.className = "blog";
-      Array.from({ length: 10 }, (_, index) => {
-        const article = document.createElement("div");
-        article.className = "article";
-        const img = document.createElement("img");
-        const title = document.createElement("p");
-        title.className = "title";
-        img.className = "img";
-        img.onload = function () {
-          const randomAnimation =
-            randomWords[Math.floor(Math.random() * randomWords.length)];
-          img.style.animation = `${randomAnimation} 10s linear infinite`;
-        };
-        img.id = "cmfqp39fj";
-        img.src =
-          "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpghttps://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg";
-        img.style.height = `${screeenHeight}px`;
-        img.style.width = `${screenWidth}px`;
-        img.style.objectFit = "cover";
-        article.addEventListener("mouseover", () => {
-          img.style.opacity = "0.8";
-          title.style.display = "block";
-        });
-        console.log(img.id);
-        article.addEventListener("mouseout", () => {
-          img.style.opacity = "1";
-          title.style.display = "none";
-        });
-        article.addEventListener("click", () => {
-          fetch("http://127.0.0.1:5000/api/v1/user/isLoggedIn", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.compile === "notLoggedIn") {
-                alert("You are not logged in")
-                return window.location.href = "http://127.0.0.1:5000/api/v1/blogs/login";
-              }
-              window.location.href = `http://127.0.0.1:5000/api/v1/blogs/page?id=655599904e0ffbbc32a0cbc8`;
+      fetch("http://127.0.0.1:5000/api/v1/post/getAllPost/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const news = data.data.reverse();
+          console.log(data.data);
+          news.map((value, index) => {
+            console.log(value);
+            const article = document.createElement("div");
+            article.className = "article";
+            const img = document.createElement("img");
+            const title = document.createElement("p");
+            title.className = "title";
+            img.className = "img";
+            img.onload = function () {
+              const randomAnimation =
+                randomWords[Math.floor(Math.random() * randomWords.length)];
+              img.style.animation = `${randomAnimation} 10s linear infinite`;
+            };
+            img.id = value._id;
+            img.src = value.photo;
+            img.style.height = `${screeenHeight}px`;
+            img.style.width = `${screenWidth}px`;
+            img.style.objectFit = "cover";
+            article.addEventListener("mouseover", () => {
+              img.style.opacity = "0.8";
+              title.style.display = "block";
             });
+            console.log(img.id);
+            article.addEventListener("mouseout", () => {
+              img.style.opacity = "1";
+              title.style.display = "none";
+            });
+            article.addEventListener("click", () => {
+              checkLoggedIn(
+                `http://127.0.0.1:5000/api/v1/blogs/page?id=${img.id}`
+              );
+            });
+            title.textContent = value.title;
+            article.appendChild(img);
+            article.appendChild(title);
+            blog.appendChild(article);
+          });
         });
-        title.textContent =
-          "There is something a lot is going on i dont know lets check it out";
-        article.appendChild(img);
-        article.appendChild(title);
-        blog.appendChild(article);
-      });
       blogs.appendChild(blog);
     });
+
+    document.querySelector(".home").addEventListener("click", () => {
+      window.location.href = "http://127.0.0.1:5000/api/v1/blogs/home";
+    });
+    document.querySelector(".about").addEventListener("click", () => {
+      window.location.href = "http://127.0.0.1:5000/api/v1/blogs/about";
+    });
+    document.querySelector(".create").addEventListener("click", () => {
+      checkLoggedIn("http://127.0.0.1:5000/api/v1/blogs/createArticle");
+    });
+    document.querySelector(".login").addEventListener("click", () => {
+      window.location.href = "http://127.0.0.1:5000/api/v1/blogs/login";
+    });
+
+    function checkLoggedIn(url) {
+      fetch("http://127.0.0.1:5000/api/v1/user/isLoggedIn", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.compile === "notLoggedIn") {
+            alert("You are not logged in");
+            return (window.location.href =
+              "http://127.0.0.1:5000/api/v1/blogs/login");
+          }
+          window.location.href = url;
+        });
+    }
   </script>
 </html>

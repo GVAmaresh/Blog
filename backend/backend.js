@@ -24,8 +24,8 @@ app.use("/api/v1/post", postRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/blogs", blogRouter);
 
-app.get('/', (req, res) => {
-  res.redirect('http://127.0.0.1:5000/api/v1/blogs/home');
+app.get("/", (req, res) => {
+  res.redirect("http://127.0.0.1:5000/api/v1/blogs/home");
 });
 
 const dbUrl = process.env.DATABASE.replace(
@@ -41,9 +41,7 @@ mongoose
     console.error("Error connecting to MongoDB:", error);
   });
 
-
 const server = app.listen(5000, () => console.log("Listening on port 5000"));
-
 
 process.on("unhandledRejection", (err) => {
   console.log("UNHANDLED REJECTION! 💥 Shutting down...");

@@ -59,6 +59,10 @@
         padding: 10px;
         box-sizing: border-box;
       }
+      .image {
+        height: 10%;
+        width: 100%;
+      }
       .subheading {
         font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
           sans-serif;
@@ -108,7 +112,9 @@
       </div>
       <div class="article-pages">
         <div class="title"></div>
-        <div class="images"></div>
+        <div class="images">
+          <img src="" alt="" class="image" />
+        </div>
         <div class="subheading"></div>
         <div class="summary"></div>
         <p class="description"></p>
@@ -136,9 +142,9 @@
   </body>
   <script>
     const url = encodeURIComponent(window.location.href);
-    console.log(url);
     const id = url.split("id%3D")[1];
     const title = document.querySelector(".title");
+    const image = document.querySelector(".image");
     const subheading = document.querySelector(".subheading");
     const summary = document.querySelector(".summary");
     const description = document.querySelector(".description");
@@ -156,6 +162,7 @@
       .then((data) => {
         const details = data.data;
         title.textContent = details.title;
+        image.src = details.photo;
         subheading.textContent = details.subheading;
         summary.textContent = details.summary;
         description.innerHTML = details.description.replace(/\n/g, "<br><br>");
@@ -173,7 +180,7 @@
     })
       .then((response) => response.json())
       .then((data) => {
-        otherComment.innerHTML = ''
+        otherComment.innerHTML = "";
         commentSection(data.data.comment);
         console.log("comment received");
       })
@@ -188,22 +195,21 @@
         headers: {
           "Content-Type": "application/json",
         },
-        body:JSON.stringify({ comment: input.value, id: id }),
+        body: JSON.stringify({ comment: input.value, id: id }),
       })
         .then((res) => res.json())
         .then((data) => {
-          otherComment.innerHTML = ''
+          if (data?.compile) {
+            input.value = "";
+            return alert("You have already commented to this post");
+          }
+          otherComment.innerHTML = "";
           commentSection(data.data.comment);
         });
-    });
-    document.querySelector(".home").addEventListener("click", (e) => {
-      e.preventDefault();
-      window.location.href = `http://127.0.0.1:5000/api/v1/blogs/home`;
     });
 
     function commentSection(data) {
       heading.textContent = `Comments (${data.length})`;
-      console.log(data);
       if (data) {
         data.map((e) => {
           const comment = document.createElement("div");
@@ -216,7 +222,7 @@
           name.className = "name";
           const opinion = document.createElement("div");
           opinion.className = "opinion";
-          image.style.backgroundImage = `url(${e.personImg})`
+          image.style.backgroundImage = `url(${e.personImg})`;
           name.textContent = e.personName;
           opinion.textContent = e.comment;
           details.appendChild(name);
@@ -224,8 +230,37 @@
           comment.appendChild(image);
           comment.appendChild(details);
           otherComment.appendChild(comment);
-        })
+        });
       }
+      input.value = "";
+    }
+
+    document.querySelector(".home").addEventListener("click", () => {
+      window.location.href = "http://127.0.0.1:5000/api/v1/blogs/home";
+    });
+    document.querySelector(".about").addEventListener("click", () => {
+      window.location.href = "http://127.0.0.1:5000/api/v1/blogs/about";
+    });
+    document.querySelector(".create").addEventListener("click", () => {
+      checkLoggedIn("http://127.0.0.1:5000/api/v1/blogs/createArticle");
+    });
+
+    function checkLoggedIn(url) {
+      fetch("http://127.0.0.1:5000/api/v1/user/isLoggedIn", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.compile === "notLoggedIn") {
+            alert("You are not logged in");
+            return (window.location.href =
+              "http://127.0.0.1:5000/api/v1/blogs/login");
+          }
+          window.location.href = url;
+        });
     }
   </script>
 </html>
