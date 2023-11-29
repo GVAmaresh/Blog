@@ -2,3 +2,4 @@ backend/node_modules
 config.env
 backend/config.env
 backend/frontend/Blogger.png
+frontend/node_modules
