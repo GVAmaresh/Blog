@@ -20,7 +20,7 @@ const createToken = (user, req, res) => {
     user.password = undefined;
     res.locals.user = user;
 
-    res.status(201).json({ status: "Success", token, data: { user } });
+    res.status(201).json({ status: "success", token, data: { user } });
   } catch (err) {
     res.starts(500).json({
       status: "Fail",
@@ -61,6 +61,8 @@ exports.isLoggedIn = async (req, res) => {
       token = req.headers.authorization.split(" ")[1];
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
+    } else if (req.headers.mycookie) {
+      token = req.headers.mycookie;
     }
     if (!token) {
       return res.status(400).json({
@@ -119,6 +121,9 @@ exports.protect = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
+    } else if (req.headers.mycookie) {
+      token = req.headers.mycookie;
+      console.log(req.headers);
     }
     if (!token)
       return res.status(401).json({
@@ -146,6 +151,7 @@ exports.commentSection = async (req, res) => {
   try {
     const postID = req.body.id;
     const { comment } = req.body;
+    console.log(postID);
     const { name, photo } = await User.findById(req.user._id);
     let updatedComment = "";
     const post = await Post.findById(postID);

@@ -1,0 +1,477 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.navbar {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.content {
+  display: flex;
+  margin-top: 5%;
+  gap: 10%;
+}
+.logo-img {
+  width: 15%;
+}
+.container {
+  height: 100%;
+}
+.blogs {
+  display: grid;
+  height: 100%;
+  overflow-x: hidden;
+  justify-content: center;
+}
+.blog {
+  height: 100%;
+  color: white;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.blogs::-webkit-scrollbar {
+  display: none;
+}
+.blog::-webkit-scrollbar {
+  display: none;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+.title {
+  z-index: 100;
+}
+.article {
+  position: relative;
+  margin-bottom: 1px;
+  color: black;
+  background-color: white;
+  white-space: nowrap;
+  overflow-x: hidden;
+  cursor: pointer;
+}
+.img {
+  object-fit: cover;
+}
+
+@keyframes scrollBackground {
+  0% {
+    transform: translateX(0%);
+  }
+  50% {
+    transform: translateX(-40%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes scrollBackgroundReverse {
+  0% {
+    transform: translateX(-40%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-40%);
+  }
+}
+@keyframes scrollBackgroundMiddle {
+  0% {
+    transform: translateX(-20%);
+  }
+  30% {
+    transform: translateX(-40%);
+  }
+  70% {
+    transform: translateX(-0%);
+  }
+  100% {
+    transform: translateX(-20%);
+  }
+}
+@keyframes scrollBackgroundFirst {
+  0% {
+    transform: translateX(-10%);
+  }
+  30% {
+    transform: translateX(-40%);
+  }
+  70% {
+    transform: translateX(-0%);
+  }
+  100% {
+    transform: translateX(-10%);
+  }
+}
+@keyframes scrollBackgroundLastFirst {
+  0% {
+    transform: translateX(-10%);
+  }
+  30% {
+    transform: translateX(-0%);
+  }
+  70% {
+    transform: translateX(-40%);
+  }
+  100% {
+    transform: translateX(-10%);
+  }
+}
+@keyframes scrollBackgroundLast {
+  0% {
+    transform: translateX(-30%);
+  }
+  30% {
+    transform: translateX(-0%);
+  }
+  70% {
+    transform: translateX(-40%);
+  }
+  100% {
+    transform: translateX(-30%);
+  }
+}
+@keyframes scrollBackgroundFirstLast {
+  0% {
+    transform: translateX(-30%);
+  }
+  30% {
+    transform: translateX(-40%);
+  }
+  70% {
+    transform: translateX(-0%);
+  }
+  100% {
+    transform: translateX(-30%);
+  }
+}
+.title {
+  position: absolute;
+  font-size: xx-large;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  display: none;
+  color: white;
+  font-weight: 600;
+  bottom: 10%;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  white-space: normal;
+  word-wrap: break-word;
+}
+.home,
+.about,
+.create,
+.loginNav {
+  cursor: pointer;
+  font-size: x-large;
+}
+.home:hover,
+.about:hover,
+.create:hover,
+.loginNav:hover {
+  text-decoration: underline;
+}
+
+/* //////////////////////Login/////////////////////////// */
+.container-img {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.image {
+  height: 90vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url("https://img.freepik.com/free-vector/call-center-concept-illustration_114360-2045.jpg?t=st=1700110761~exp=1700111361~hmac=07837cc1d480d29ab391815afd4eddec60fc72fd6055fbdc92442324aa36759e");
+}
+.login {
+  background-color: black;
+  z-index: 200;
+  height: 90vh;
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+.myLogin {
+  position: absolute;
+  margin-top: 10%;
+  margin-left: 15%;
+  padding: 5%;
+  padding-top: 3%;
+  border-radius: 10px;
+  background-color: white;
+}
+.email,
+.password {
+  margin-bottom: 10%;
+}
+.input-l {
+  border: solid 0px black;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 4%;
+  background-color: #e4f4f3;
+}
+.signin {
+  text-align: center;
+  background-color: indigo;
+  font-size: 20px;
+  padding: 5%;
+  border-radius: 10px;
+  margin-left: 5%;
+  cursor: pointer;
+  color: white;
+}
+.signup {
+  margin-top: 20%;
+  text-align: center;
+}
+.shift {
+  margin-top: 5%;
+  text-transform: uppercase;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+}
+.welcome {
+  text-align: center;
+  font-weight: 600;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  padding-bottom: 10%;
+}
+/* ////////////////////// Signup//////////////////////////////// */
+.container-sign {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.image-s {
+  height: 90vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url("https://img.freepik.com/free-vector/two-men-shake-hands-with-each-other-isolated-white-background-meeting-greeting-friends-businessmen-deal-agreement-illustration-partnership-cooperation-communication_575670-2344.jpg?w=996&t=st=1700126584~exp=1700127184~hmac=df2026553cfad25437a96b362bb39df01e86f2c66d0f667d7e5b3c6c24fa0008");
+}
+.login-s {
+  background-color: black;
+  z-index: 200;
+  height: 90vh;
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+.myLogin-s {
+  position: absolute;
+  margin-top: 5%;
+  margin-left: 15%;
+  padding: 5%;
+  padding-top: 2%;
+  border-radius: 10px;
+  background-color: white;
+}
+.email-s,
+.name,
+.photo,
+.password-s,
+.changePassword {
+  margin-bottom: 5%;
+}
+.input-s {
+  border: solid 0px black;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 4%;
+  background-color: #e4f4f3;
+}
+.signin-s {
+  text-align: center;
+  background-color: indigo;
+  font-size: 20px;
+  padding: 5%;
+  border-radius: 10px;
+  margin-left: 5%;
+  cursor: pointer;
+  color: white;
+}
+.welcome {
+  text-align: center;
+  font-size: larger;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-weight: 500;
+  padding-bottom: 10%;
+}
+.signup-s {
+  margin-top: 20%;
+  text-align: center;
+}
+.shift-s {
+  margin-top: 5%;
+  text-transform: uppercase;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ////////////////////////////// Page //////////////////////////////// */
+.article-pages {
+  padding: 2%;
+  padding-top: 1%;
+}
+.navbar {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.content {
+  display: flex;
+  margin-top: 5%;
+  gap: 10%;
+}
+.logo-img {
+  width: 15%;
+}
+.images-p {
+  width: 80%;
+  background-color: white;
+}
+.circles-images {
+  width: 20%;
+  background-color: aqua;
+  padding: 10px;
+}
+.comment {
+  margin: 2%;
+}
+.comments {
+  padding: 1%;
+  display: flex;
+  height: 20%;
+}
+.circle-images {
+  height: 10vh;
+  width: 10%;
+  background-color: aqua;
+  clip-path: circle();
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.title-p {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: xx-large;
+  font-weight: 600;
+  margin-bottom: 5%;
+}
+.details {
+  width: 100%;
+  padding: 1px;
+  box-sizing: border-box;
+}
+.image-p {
+  height: 10%;
+  width: 100%;
+}
+.subheading {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: medium;
+  margin-bottom: 2%;
+}
+.name {
+  padding-bottom: 1%;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-weight: 400;
+}
+.editInput {
+  width: 60%;
+  border-radius: 10px;
+  padding: 2%;
+}
+.commit {
+  padding: 1%;
+  background-color: cornflowerblue;
+  max-width: max-content;
+  margin: 2%;
+  margin-top: 1%;
+  border-radius: 20px;
+}
+
+.heading {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 4%;
+}
+.summary {
+  color: gray;
+  margin-bottom: 2%;
+}
+/* ///////////////////////////////////Article////////////////////////////////// */
+.container-a {
+  position: relative;
+}
+.image-a {
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url("https://img.freepik.com/free-vector/online-article-concept-illustration_114360-5193.jpg?w=740&t=st=1700127244~exp=1700127844~hmac=7a9f8759b843ae1415174a80240752ccf413b6fd10be120ef11bdfb743c6318f");
+  filter: blur(5px);
+}
+.login-a {
+  z-index: 200;
+  position: absolute;
+  top: 5%;
+  left: 45%;
+  transform: translateX(-35%);
+  padding: 5%;
+  border-radius: 10px;
+  box-shadow: 3px 10px 20px #888888;
+}
+.welcome-a {
+  text-align: center;
+  font-weight: 600;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  padding-bottom: 10%;
+  text-transform: uppercase;
+}
+.photo-a,
+.title-a,
+.summary-a,
+.subheading-a,
+.description-a {
+  margin-bottom: 5%;
+}
+.input {
+  border: solid 0px black;
+  border-radius: 5px;
+  font-size: 15px;
+  margin-left: 20%;
+  width: 60%;
+  padding: 3%;
+  background-color: #e4f4f3;
+}
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5%;
+  cursor: pointer;
+  margin-left: 20%;
+  margin-bottom: 5%;
+}
+.cat {
+  padding: 2%;
+  margin: 2%;
+  background-color: aquamarine;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.create-a {
+  text-align: center;
+  background-color: indigo;
+  font-size: 20px;
+  padding: 5%;
+  border-radius: 10px;
+  margin-left: 5%;
+  cursor: pointer;
+  color: white;
+}
